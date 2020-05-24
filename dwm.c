@@ -308,6 +308,7 @@ static Display *dpy;
 static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
+static int borderpx;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
@@ -1797,6 +1798,7 @@ setup(void)
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h;
 	bh = drw->fonts->h + 2;
+	borderpx = (drw->fonts->h * borderpt) / fontpt + 0.5;
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
