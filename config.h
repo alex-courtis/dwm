@@ -74,6 +74,7 @@ static const char *grabscreencmd[]  = { "scrot", "/tmp/%Y-%m-%d-%H%M%S_$wx$h_scr
 static const char *grabwindowcmd[]  = { "scrot", "/tmp/%Y-%m-%d-%H%M%S_$wx$h_scrot.png", "--focussed", "--exec", "echo -n '$f' | xsel --input --clipboard", NULL };
 
 #include <X11/XF86keysym.h>
+#include "unfloat.c"
 static Key keys[] = {
 	/* left */
 	{ MODKEY,                       XK_comma,                   spawn,          {.v = browsercmd } },
@@ -109,7 +110,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_n,                       tagmon,         {.i = +1 } },
 
 	{ MODKEY,                       XK_b,                       togglebar,      {0} },
-	//{ MODKEY,                       XK_m,                       unfloatvisible, {0} }, 
+	{ MODKEY,                       XK_m,                       unfloatvisible, {0} }, 
 
 	/* thumbs */
 	{ MODKEY,                       XK_Escape,                  view,           {0} },
