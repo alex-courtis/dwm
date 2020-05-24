@@ -47,5 +47,7 @@ install: all
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
 		${DESTDIR}${MANPREFIX}/man1/dwm.1
+ctags:
+	ctags-c ${SRC} ${CPPFLAGS} ${INCS}
 
-.PHONY: all options clean dist install uninstall
+.PHONY: all options clean dist install uninstall ctags
