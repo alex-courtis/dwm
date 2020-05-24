@@ -1,0 +1,36 @@
+From a5927ab954b0149b6fc14b81cbb32aec7dd8f584 Mon Sep 17 00:00:00 2001
+From: Alexander Courtis <acourtis@atlassian.com>
+Date: Sun, 16 Feb 2020 16:31:51 +1100
+Subject: [PATCH] do nothing with XA_WM_TRANSIENT_FOR; they were (incorrectly?) used to float the "transient for" target, rather than the transient itself
+
+---
+ dwm.c | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/dwm.c b/dwm.c
+index 4465af1..f0f98fc 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -1212,7 +1212,6 @@ void
+ propertynotify(XEvent *e)
+ {
+ 	Client *c;
+-	Window trans;
+ 	XPropertyEvent *ev = &e->xproperty;
+ 
+ 	if ((ev->window == root) && (ev->atom == XA_WM_NAME))
+@@ -1222,11 +1221,6 @@ propertynotify(XEvent *e)
+ 	else if ((c = wintoclient(ev->window))) {
+ 		switch(ev->atom) {
+ 		default: break;
+-		case XA_WM_TRANSIENT_FOR:
+-			if (!c->isfloating && (XGetTransientForHint(dpy, c->win, &trans)) &&
+-				(c->isfloating = (wintoclient(trans)) != NULL))
+-				arrange(c->mon);
+-			break;
+ 		case XA_WM_NORMAL_HINTS:
+ 			updatesizehints(c);
+ 			break;
+-- 
+2.25.0
+
