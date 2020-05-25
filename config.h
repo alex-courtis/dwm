@@ -45,10 +45,13 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
+	{ "=[]",      tilermaster },	/* first entry is default */
+	{ "[]=",      tilelmaster },
 	{ "[M]",      monocle },
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "><>",      NULL },		/* no layout function means floating behavior */
 };
+static const unsigned int itilelm = 1;  /* used by settile */
+static const unsigned int itilerm = 0;
 
 /* key definitions */
 #define MODKEY Mod4Mask
@@ -102,10 +105,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_x,                       tag,            {.ui = 1 << 4 } },
 
 	/* right */
-	//{ MODKEY,                       XK_f,                       togglermaster,  {0} },
-	{ MODKEY,                       XK_g,                       setlayout,      {.v = &layouts[0]} }, /* tile */
-	{ MODKEY,                       XK_c,                       setlayout,      {.v = &layouts[1]} }, /* monocle */
-	{ MODKEY,                       XK_r,                       setlayout,      {.v = &layouts[2]} }, /* float */
+	{ MODKEY,                       XK_g,                       settile,        {0} },
+	{ MODKEY,                       XK_c,                       setlayout,      {.v = &layouts[2]} }, /* monocle */
+	{ MODKEY,                       XK_r,                       setlayout,      {.v = &layouts[3]} }, /* float */
 	{ MODKEY,                       XK_l,                       setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_l,                       incnmaster,     {.i = -1 } },
 
@@ -148,7 +150,7 @@ static Key keys[] = {
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[1]} },
+	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },

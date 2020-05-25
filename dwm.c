@@ -235,6 +235,7 @@ static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
+static void settile(const Arg *arg);
 static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
@@ -243,7 +244,9 @@ static void spawn(const Arg *arg);
 static Monitor *systraytomon(Monitor *m);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
-static void tile(Monitor *);
+static void tile(Monitor *, int lmaster);
+static void tilelmaster(Monitor *);
+static void tilermaster(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -1146,7 +1149,9 @@ grabkeys(void)
 void
 incnmaster(const Arg *arg)
 {
-	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(selmon->nmaster + arg->i, 0);
+	int i;
+	i = (selmon->lt[selmon->sellt]->arrange == &tilermaster) ? -arg->i : arg->i;
+	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(selmon->nmaster + i, 0);
 	arrange(selmon);
 }
 
@@ -1771,11 +1776,23 @@ setmfact(const Arg *arg)
 
 	if (!arg || !selmon->lt[selmon->sellt]->arrange)
 		return;
-	f = arg->f < 1.0 ? arg->f + selmon->mfact : arg->f - 1.0;
+	f = (selmon->lt[selmon->sellt]->arrange == &tilermaster) ? -arg->f : arg->f;
+	f = f < 1.0 ? f + selmon->mfact : f - 1.0;
 	if (f < 0.1 || f > 0.9)
 		return;
 	selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag] = f;
 	arrange(selmon);
+}
+
+void
+settile(const Arg *arg)
+{
+	Arg slarg;
+	if (selmon->lt[selmon->sellt]->arrange != &tilermaster)
+		slarg.v = &layouts[itilerm];
+	else
+		slarg.v = &layouts[itilelm];
+	setlayout(&slarg);
 }
 
 void
@@ -1933,9 +1950,21 @@ tagmon(const Arg *arg)
 }
 
 void
-tile(Monitor *m)
+tilelmaster(Monitor *m)
 {
-	unsigned int i, n, h, mw, my, ty;
+	tile(m, 0);
+}
+
+void
+tilermaster(Monitor *m)
+{
+	tile(m, 1);
+}
+
+void
+tile(Monitor *m, int rmaster)
+{
+	unsigned int i, n, h, mw, tw, mx, my, tx, ty;
 	Client *c;
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
@@ -1946,14 +1975,24 @@ tile(Monitor *m)
 		mw = m->nmaster ? m->ww * m->mfact : 0;
 	else
 		mw = m->ww;
+	tw = m->ww - mw;
+
+	mx = tx = m->wx;
+	if (n > m->nmaster) {
+		if (rmaster)
+			mx += tw;
+		else
+			tx += mw;
+	}
+
 	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
 			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
+			resize(c, mx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
 			my += HEIGHT(c);
 		} else {
 			h = (m->wh - ty) / (n - i);
-			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
+			resize(c, tx, m->wy + ty, tw - (2*c->bw), h - (2*c->bw), 0);
 			ty += HEIGHT(c);
 		}
 }
