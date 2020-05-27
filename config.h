@@ -87,22 +87,17 @@ static const char *grabwindowcmd[]  = { "scrot", "/tmp/%Y-%m-%d-%H%M%S_$wx$h_scr
 #include "unfloat.c"
 static Key keys[] = {
 	/* left */
-	{ MODKEY,                       XK_comma,                   spawn,          {.v = browsercmd } },
-	{ MODKEY,                       XK_period,                  spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_p,                       spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_y,                       killclient,     {0} },
+	{ MODKEY,                       XK_semicolon,               tag,            {.ui = 1 << 0 } },
+	{ MODKEY,                       XK_comma,                   tag,            {.ui = 1 << 1 } },
+	{ MODKEY,                       XK_period,                  tag,            {.ui = 1 << 2 } },
+	{ MODKEY,                       XK_p,                       tag,            {.ui = 1 << 3 } },
+	{ MODKEY,                       XK_y,                       tag,            {.ui = 1 << 4 } },
 
 	{ MODKEY,                       XK_a,                       view,           {.ui = 1 << 0 } },
 	{ MODKEY,                       XK_o,                       view,           {.ui = 1 << 1 } },
 	{ MODKEY,                       XK_e,                       view,           {.ui = 1 << 2 } },
 	{ MODKEY,                       XK_u,                       view,           {.ui = 1 << 3 } },
 	{ MODKEY,                       XK_i,                       view,           {.ui = 1 << 4 } },
-
-	{ MODKEY,                       XK_apostrophe,              tag,            {.ui = 1 << 0 } },
-	{ MODKEY,                       XK_q,                       tag,            {.ui = 1 << 1 } },
-	{ MODKEY,                       XK_j,                       tag,            {.ui = 1 << 2 } },
-	{ MODKEY,                       XK_k,                       tag,            {.ui = 1 << 3 } },
-	{ MODKEY,                       XK_x,                       tag,            {.ui = 1 << 4 } },
 
 	/* right */
 	{ MODKEY,                       XK_g,                       settile,        {0} },
@@ -111,15 +106,19 @@ static Key keys[] = {
 	{ MODKEY,                       XK_l,                       setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_l,                       incnmaster,     {.i = -1 } },
 
+	{ MODKEY,                       XK_d,                       killclient,     {0} },
 	{ MODKEY,                       XK_h,                       setmfact,       {.f = -0.05} },
 	{ MODKEY|ShiftMask,             XK_h,                       incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_t,                       focusmon,       {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_t,                       tagmon,         {.i = -1 } },
-	{ MODKEY,                       XK_n,                       focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_n,                       tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_t,                       spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_n,                       spawn,          {.v = browsercmd } },
+	{ MODKEY,                       XK_s,                       spawn,          {.v = dmenucmd } },
 
 	{ MODKEY,                       XK_b,                       togglebar,      {0} },
 	{ MODKEY,                       XK_m,                       unfloatvisible, {0} }, 
+	{ MODKEY,                       XK_w,                       focusmon,       {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_w,                       tagmon,         {.i = -1 } },
+	{ MODKEY,                       XK_v,                       focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_v,                       tagmon,         {.i = +1 } },
 
 	/* thumbs */
 	{ MODKEY,                       XK_Escape,                  view,           {0} },
