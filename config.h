@@ -13,10 +13,21 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
+
+/* base16-default-dark */
+static const char base00[] = "#181818"; // Default Background
+static const char base01[] = "#282828"; // Lighter Background (Used for status bars)
+static const char base02[] = "#383838"; // Selection Background
+static const char base03[] = "#585858"; // Comments, Invisibles, Line Highlighting
+static const char base04[] = "#b8b8b8"; // Dark Foreground (Used for status bars)
+static const char base05[] = "#d8d8d8"; // Default Foreground, Caret, Delimiters, Operators
+static const char base06[] = "#e8e8e8"; // Light Foreground (Not often used)
+static const char base07[] = "#f8f8f8"; // Light Background (Not often used)
+
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeNorm] = { base04,    base01,    base02 },
+	[SchemeSel]  = { base05,    base02,    base04 },
 };
 
 /* systray */
