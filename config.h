@@ -14,20 +14,20 @@ static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 
-/* base16-default-dark */
-static const char base00[] = "#181818"; // Default Background
-static const char base01[] = "#282828"; // Lighter Background (Used for status bars)
-static const char base02[] = "#383838"; // Selection Background
-static const char base03[] = "#585858"; // Comments, Invisibles, Line Highlighting
-static const char base04[] = "#b8b8b8"; // Dark Foreground (Used for status bars)
-static const char base05[] = "#d8d8d8"; // Default Foreground, Caret, Delimiters, Operators
-static const char base06[] = "#e8e8e8"; // Light Foreground (Not often used)
-static const char base07[] = "#f8f8f8"; // Light Background (Not often used)
+/* base16-bright */
+static const char base00[] = "#000000"; // Default Background
+static const char base01[] = "#303030"; // Lighter Background (Used for status bars)
+static const char base02[] = "#505050"; // Selection Background
+static const char base03[] = "#b0b0b0"; // Comments, Invisibles, Line Highlighting
+static const char base04[] = "#d0d0d0"; // Dark Foreground (Used for status bars)
+static const char base05[] = "#e0e0e0"; // Default Foreground, Caret, Delimiters, Operators
+static const char base06[] = "#f5f5f5"; // Light Foreground (Not often used)
+static const char base07[] = "#ffffff"; // Light Background (Not often used)
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { base04,    base01,    base02 },
-	[SchemeSel]  = { base05,    base02,    base04 },
+	[SchemeSel]  = { base05,    base02,    base03 },
 };
 
 /* systray */
