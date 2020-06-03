@@ -79,7 +79,7 @@ static const unsigned int itilerm = 1;
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", base01, "-nf", base04, "-sb", base02, "-sf", base05, NULL };
 static const char *termcmd[]  = { SHELL, "-c", "term &", NULL };
 static const char *browsercmd[] = { SHELL, "-c", "browser &", NULL };
 static const char *lockcmd[] = { "xautolock", "-locknow", NULL };
