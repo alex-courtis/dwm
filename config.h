@@ -2,7 +2,6 @@
 
 /* appearance */
 static const unsigned int borderpt  = 1;        /* border pt of windows */
-static const unsigned int gappt     = 1;        /* gap pt between tiled */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */

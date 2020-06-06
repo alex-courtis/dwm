@@ -311,7 +311,7 @@ static Display *dpy;
 static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
-static int borderpx, gappx;
+static int borderpx;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
@@ -1816,7 +1816,6 @@ setup(void)
 	lrpad = drw->fonts->h;
 	bh = drw->fonts->h + 2;
 	borderpx = (drw->fonts->h * borderpt) / fontpt + 0.5;
-	gappx = (drw->fonts->h * gappt) / fontpt + 0.5;
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
@@ -1965,7 +1964,7 @@ tilermaster(Monitor *m)
 void
 tile(Monitor *m, int rmaster)
 {
-	unsigned int g, i, n, h, mw, tw, mx, my, tx, ty;
+	unsigned int i, n, h, mw, tw, mx, my, tx, ty;
 	Client *c;
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
@@ -1979,41 +1978,23 @@ tile(Monitor *m, int rmaster)
 	tw = m->ww - mw;
 
 	mx = tx = m->wx;
-
-	if (n > 1) {
-		g = gappx;
-		mx += g;
-		mw -= g;
-		tx += g;
-		tw -= g;
-	} else {
-		g = 0;
-	}
-
 	if (n > m->nmaster) {
-		if (rmaster) {
+		if (rmaster)
 			mx += tw;
-			tw -= g;
-		} else {
+		else
 			tx += mw;
-			mw -= g;
-		}
-	} else {
-		mw -= g;
 	}
 
-	for (i = 0, my = ty = g, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
-			h = (m->wh - my) / (MIN(n, m->nmaster) - i) - g;
+			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
 			resize(c, mx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
-			my += HEIGHT(c) + g;
+			my += HEIGHT(c);
 		} else {
-			h = (m->wh - ty) / (n - i) - g;
+			h = (m->wh - ty) / (n - i);
 			resize(c, tx, m->wy + ty, tw - (2*c->bw), h - (2*c->bw), 0);
-			ty += HEIGHT(c) + g;
-
+			ty += HEIGHT(c);
 		}
-	}
 }
 
 void
