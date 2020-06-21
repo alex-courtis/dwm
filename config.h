@@ -121,7 +121,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_s,                       spawn,          {.v = dmenucmd } },
 
 	{ MODKEY,                       XK_b,                       togglebar,      {0} },
-	{ MODKEY,                       XK_m,                       unfloatvisible, {0} }, 
+	{ MODKEY,                       XK_m,                       unfloatvisible, {0} },
 	{ MODKEY,                       XK_w,                       focusmon,       {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_w,                       tagmon,         {.i = -1 } },
 	{ MODKEY,                       XK_v,                       focusmon,       {.i = +1 } },
