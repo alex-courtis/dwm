@@ -48,6 +48,6 @@ uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
 		${DESTDIR}${MANPREFIX}/man1/dwm.1
 ctags:
-	ctags-c ${SRC} ${CPPFLAGS} ${INCS}
+	ctags-c ${INCS} --project-src ${SRC} ${CPPFLAGS}
 
 .PHONY: all options clean dist install uninstall ctags
