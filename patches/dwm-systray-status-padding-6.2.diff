@@ -1,0 +1,16 @@
+diff '--color=auto' -up dwm.prepatch/dwm.c dwm/dwm.c
+--- dwm.prepatch/dwm.c	2020-06-29 10:41:54.742773883 +1000
++++ dwm/dwm.c	2020-06-29 10:43:17.309544922 +1000
+@@ -852,8 +852,8 @@ drawbar(Monitor *m)
+ 	/* draw status first so it can be overdrawn by tags later */
+ 	if (m == selmon) { /* status is only drawn on selected monitor */
+ 		drw_setscheme(drw, scheme[SchemeNorm]);
+-		sw = TEXTW(stext) - lrpad / 2 + 2; /* 2px right padding */
+-		drw_text(drw, m->ww - sw - stw, 0, sw, bh, lrpad / 2 - 2, stext, 0);
++		sw = TEXTW(stext);
++		drw_text(drw, m->ww - sw - stw, 0, sw, bh, lrpad / 2, stext, 0);
+ 	}
+ 
+ 	resizebarwin(m);
+Common subdirectories: dwm.prepatch/.git and dwm/.git
+Common subdirectories: dwm.prepatch/patches and dwm/patches
