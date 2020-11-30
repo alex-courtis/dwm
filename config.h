@@ -22,8 +22,8 @@ static const char base07[] = "#ffffff"; // Light Background (Not often used)
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { base04,    base01,    base02 },
-	[SchemeSel]  = { base05,    base02,    base03 },
+	[SchemeNorm] = { base05,    base01,    base02 },
+	[SchemeSel]  = { base06,    base02,    base03 },
 };
 
 /* systray */
