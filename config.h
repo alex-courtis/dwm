@@ -11,19 +11,19 @@ static const int fontpt             = 11;       /* used for calculating borderpx
 static const char dmenufont[]       = "monospace:size=11";
 
 /* base16-bright */
-static const char base00[] = "#000000"; // Default Background
-static const char base01[] = "#303030"; // Lighter Background (Used for status bars)
-static const char base02[] = "#505050"; // Selection Background
-static const char base03[] = "#b0b0b0"; // Comments, Invisibles, Line Highlighting
-static const char base04[] = "#d0d0d0"; // Dark Foreground (Used for status bars)
-static const char base05[] = "#e0e0e0"; // Default Foreground, Caret, Delimiters, Operators
-static const char base06[] = "#f5f5f5"; // Light Foreground (Not often used)
-static const char base07[] = "#ffffff"; // Light Background (Not often used)
+#define BASE00 "#000000" // Default Background
+#define BASE01 "#303030" // Lighter Background (Used for status bars)
+#define BASE02 "#505050" // Selection Background
+#define BASE03 "#b0b0b0" // Comments, Invisibles, Line Highlighting
+#define BASE04 "#d0d0d0" // Dark Foreground (Used for status bars)
+#define BASE05 "#e0e0e0" // Default Foreground, Caret, Delimiters, Operators
+#define BASE06 "#f5f5f5" // Light Foreground (Not often used)
+#define BASE07 "#ffffff" // Light Background (Not often used)
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { base05,    base01,    base02 },
-	[SchemeSel]  = { base06,    base02,    base03 },
+	[SchemeNorm] = { BASE05,    BASE01,    BASE02 },
+	[SchemeSel]  = { BASE06,    BASE02,    BASE03 },
 };
 
 /* systray */
@@ -75,7 +75,10 @@ static const unsigned int itilerm = 1;
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", base01, "-nf", base04, "-sb", base02, "-sf", base05, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", BASE01, "-nf", BASE04, "-sb", BASE02, "-sf", BASE05, NULL };
+static char j4dmenuargs[] = "--dmenu=dmenu -i -m 0 -fn monospace:size=11 -nb \\"BASE01" -nf \\"BASE04" -sb \\"BASE02" -sf \\"BASE05; /* manipulated in spawn() */
+static const int j4dmenuargsmonindex = 20;
+static const char *j4dmenucmd[] = { "j4-dmenu-desktop", j4dmenuargs, NULL };
 static const char *termcmd[]  = { SHELL, "-c", "term &", NULL };
 static const char *browsercmd[] = { SHELL, "-c", "browser &", NULL };
 static const char *lockcmd[] = { "xautolock", "-locknow", NULL };
@@ -119,6 +122,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,                       spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_n,                       spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_s,                       spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_minus,                   spawn,          {.v = j4dmenucmd } },
 
 	{ MODKEY,                       XK_b,                       togglebar,      {0} },
 	{ MODKEY,                       XK_m,                       unfloatvisible, {0} },
