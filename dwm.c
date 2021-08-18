@@ -1817,7 +1817,10 @@ setup(void)
 	bh = drw->fonts->h + 2;
 	/* some apps like steam behaveincorrectly when the border size is odd */
 	borderpx = ((drw->fonts->h * borderpt) / fontpt + 1) / 2 * 2;
+	printf("borderpx=%d\n", borderpx);
 	gappx = ((drw->fonts->h * gappt) / fontpt + 1) / 2 * 2;
+	printf("gappx=%d\n", gappx);
+	fflush(stdout);
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
