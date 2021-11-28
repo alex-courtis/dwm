@@ -52,12 +52,12 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[M]",      monocle },	/* first entry is default */
+	{ "[]=",      tilelmaster },	/* first entry is default */
 	{ "=[]",      tilermaster },
-	{ "[]=",      tilelmaster },
+	{ "[M]",      monocle },
 	{ "><>",      NULL },		/* no layout function means floating behavior */
 };
-static const unsigned int itilelm = 2;  /* used by settile */
+static const unsigned int itilelm = 0;  /* used by settile */
 static const unsigned int itilerm = 1;
 
 /* key definitions */
@@ -109,32 +109,34 @@ static Key keys[] = {
 	{ MODKEY,                       XK_u,                       view,           {.ui = 1 << 3 } },
 	{ MODKEY,                       XK_i,                       view,           {.ui = 1 << 4 } },
 
+	{ MODKEY,                       XK_j,                       focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,                       focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_x,                       spawn,          {.v = dmenucmd } },
+	{ MODKEY|ControlMask,           XK_x,                       spawn,          {.v = j4dmenucmd } },
+
 	/* right */
-	{ MODKEY,                       XK_g,                       setlayout,      {.v = &layouts[0]} }, /* monocle */
-	{ MODKEY,                       XK_c,                       settile,        {0} },
-	{ MODKEY,                       XK_r,                       setlayout,      {.v = &layouts[3]} }, /* float */
 	{ MODKEY,                       XK_l,                       setmfact,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_l,                       incnmaster,     {.i = -1 } },
+	{ MODKEY|ControlMask,           XK_l,                       incnmaster,     {.i = -1 } },
 
 	{ MODKEY,                       XK_d,                       killclient,     {0} },
 	{ MODKEY,                       XK_h,                       setmfact,       {.f = -0.05} },
-	{ MODKEY|ShiftMask,             XK_h,                       incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_t,                       spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_n,                       spawn,          {.v = browsercmd } },
-	{ MODKEY,                       XK_s,                       spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_minus,                   spawn,          {.v = j4dmenucmd } },
+	{ MODKEY|ControlMask,           XK_h,                       incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_t,                       setlayout,      {.v = &layouts[2]} }, /* monocle */
+	{ MODKEY,                       XK_n,                       settile,        {0} },
+	{ MODKEY,                       XK_s,                       setlayout,      {.v = &layouts[3]} }, /* float */
 
 	{ MODKEY,                       XK_b,                       togglebar,      {0} },
 	{ MODKEY,                       XK_m,                       unfloatvisible, {0} },
 	{ MODKEY,                       XK_w,                       focusmon,       {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_w,                       tagmon,         {.i = -1 } },
+	{ MODKEY|ControlMask,           XK_w,                       tagmon,         {.i = -1 } },
 	{ MODKEY,                       XK_v,                       focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_v,                       tagmon,         {.i = +1 } },
+	{ MODKEY|ControlMask,           XK_v,                       tagmon,         {.i = +1 } },
 
 	/* thumbs */
 	{ MODKEY,                       XK_Escape,                  view,           {0} },
-	{ MODKEY,                       XK_Return,                  zoom,           {0} },
-	{ MODKEY,                       XK_space,                   focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_space,                   zoom,           {0} },
+	{ MODKEY,                       XK_Return,                  spawn,          {.v = termcmd } },
+	{ MODKEY|ControlMask,           XK_Return,                  spawn,          {.v = browsercmd } },
 
 	/* big chordy mnemonic things */
 	{ MODKEY|ShiftMask|ControlMask, XK_q,                       quit,           {0} },

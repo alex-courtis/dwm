@@ -1788,10 +1788,10 @@ void
 settile(const Arg *arg)
 {
 	Arg slarg;
-	if (selmon->lt[selmon->sellt]->arrange != &tilermaster)
-		slarg.v = &layouts[itilerm];
-	else
+	if (selmon->lt[selmon->sellt]->arrange != &tilelmaster)
 		slarg.v = &layouts[itilelm];
+	else
+		slarg.v = &layouts[itilerm];
 	setlayout(&slarg);
 }
 
