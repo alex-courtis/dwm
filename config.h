@@ -133,7 +133,7 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_v,                       tagmon,         {.i = +1 } },
 
 	/* thumbs */
-	{ MODKEY,                       XK_Escape,                  view,           {0} },
+	{ MODKEY,                       XK_Escape,                  togglefloating, {0} },
 	{ MODKEY,                       XK_space,                   zoom,           {0} },
 	{ MODKEY,                       XK_Return,                  spawn,          {.v = termcmd } },
 	{ MODKEY|ControlMask,           XK_Return,                  spawn,          {.v = browsercmd } },
