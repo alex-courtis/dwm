@@ -109,18 +109,18 @@ static Key keys[] = {
 	{ MODKEY,                       XK_u,                       view,           {.ui = 1 << 3 } },
 	{ MODKEY,                       XK_i,                       view,           {.ui = 1 << 4 } },
 
-	{ MODKEY,                       XK_j,                       focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,                       focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_j,                       incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_k,                       incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_x,                       spawn,          {.v = dmenucmd } },
 	{ MODKEY|ControlMask,           XK_x,                       spawn,          {.v = j4dmenucmd } },
 
 	/* right */
-	{ MODKEY,                       XK_l,                       setmfact,       {.f = +0.05} },
-	{ MODKEY|ControlMask,           XK_l,                       incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_l,                       focusstack,     {.i = +1 } },
+	{ MODKEY|ControlMask,           XK_l,                       setmfact,       {.f = +0.05} },
 
 	{ MODKEY,                       XK_d,                       killclient,     {0} },
-	{ MODKEY,                       XK_h,                       setmfact,       {.f = -0.05} },
-	{ MODKEY|ControlMask,           XK_h,                       incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_h,                       focusstack,     {.i = -1 } },
+	{ MODKEY|ControlMask,           XK_h,                       setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_t,                       setlayout,      {.v = &layouts[2]} }, /* monocle */
 	{ MODKEY,                       XK_n,                       settile,        {0} },
 	{ MODKEY,                       XK_s,                       setlayout,      {.v = &layouts[3]} }, /* float */
