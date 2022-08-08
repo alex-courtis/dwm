@@ -96,6 +96,8 @@ static Key keys[] = {
 
 	/* thumbs */
 	{ MOD1, XK_Escape,			togglefloating,	{0} },
+	{ MOD1, XK_Tab,				spawn,			{.v = dmenucmd } },
+	{ MOD2, XK_Tab,				spawn,			{.v = j4dmenucmd } },
 	{ MOD1, XK_Delete,			spawn,			{.v = termcmd } },
 	{ MOD2, XK_Delete,			spawn,			{.v = browsercmd } },
 	{ MOD1, XK_Return,			focusstack,		{.i = +1 } },
@@ -126,8 +128,6 @@ static Key keys[] = {
 	{ MOD3, XK_x,				spawn,			{.v = volmutecmd } },
 
 	/* right */
-	{ MOD1, XK_d,				spawn,			{.v = dmenucmd } },
-	{ MOD2, XK_d,				spawn,			{.v = j4dmenucmd } },
 	{ MOD1, XK_h,				setlayout,		{.v = &layouts[0]} }, /* left */
 	{ MOD1, XK_t,				setlayout,		{.v = &layouts[2]} }, /* monocle */
 	{ MOD1, XK_n,				setlayout,		{.v = &layouts[1]} }, /* right */
