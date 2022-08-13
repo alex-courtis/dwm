@@ -59,13 +59,19 @@ static const Layout layouts[] = {
 static const unsigned int itilelm = 0;  /* used by settile */
 static const unsigned int itilerm = 1;
 
+void tagview(const Arg *arg) {
+	tag(arg);
+	view(arg);
+}
+
 /* key definitions */
 #define MOD1 Mod4Mask
 #define MOD2 MOD1|ControlMask
 #define MOD3 MOD2|ShiftMask
 #define TAGKEYS(KEY,TAG) \
 { MOD1,				KEY,	view,		{.ui = 1 << TAG} },\
-{ MOD2,				KEY,	tag,		{.ui = 1 << TAG} },
+{ MOD2,				KEY,	tagview,	{.ui = 1 << TAG} },\
+{ MOD3,				KEY,	tag,		{.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -116,22 +122,22 @@ static Key keys[] = {
 	TAGKEYS(					XK_p,			8)
 	TAGKEYS(					XK_y,			9)
 
-	{ MOD3, XK_period,			spawn,			{.v = vollowermiccmd } },
-	{ MOD3, XK_p,				spawn,			{.v = volraisemiccmd } },
-	{ MOD3, XK_y,				spawn,			{.v = volmicmutecmd } },
-
 	{ MOD1, XK_q,				killclient,		{0} },
 	{ MOD3, XK_q,				quit,			{0} },
-	{ MOD3, XK_j,				spawn,			{.v = vollowercmd } },
-	{ MOD3, XK_k,				spawn,			{.v = volraisecmd } },
-	{ MOD3, XK_x,				spawn,			{.v = volmutecmd } },
 
 	/* right */
+	{ MOD3, XK_f,				spawn,			{.v = volraisemiccmd } },
+	{ MOD3, XK_g,				spawn,			{.v = volraisecmd } },
+
+	{ MOD3, XK_d,				spawn,			{.v = vollowermiccmd } },
 	{ MOD1, XK_h,				setlayout,		{.v = &layouts[0]} }, /* left */
+	{ MOD3, XK_h,				spawn,			{.v = vollowercmd } },
 	{ MOD1, XK_t,				setlayout,		{.v = &layouts[2]} }, /* monocle */
 	{ MOD1, XK_n,				setlayout,		{.v = &layouts[1]} }, /* right */
 	{ MOD1, XK_s,				settile,		{0} },
 
+	{ MOD3, XK_b,				spawn,			{.v = volmicmutecmd } },
+	{ MOD3, XK_m,				spawn,			{.v = volmutecmd } },
 	{ MOD1, XK_w,				focusmon,		{.i = -1 } },
 	{ MOD2, XK_w,				tagmon,			{.i = -1 } },
 	{ MOD1, XK_v,				focusmon,		{.i = +1 } },
