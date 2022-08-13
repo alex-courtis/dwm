@@ -97,6 +97,7 @@ static const char *backlightinccmd[]  = { "xbacklight", "+10", NULL };
 
 #include <X11/XF86keysym.h>
 #include "unfloat.c"
+#include "movestack.c"
 static Key keys[] = {
 
 	/* thumbs */
@@ -107,8 +108,8 @@ static Key keys[] = {
 	{ MOD2, XK_Delete,			spawn,			{.v = browsercmd } },
 	{ MOD1, XK_Return,			focusstack,		{.i = +1 } },
 	{ MOD2, XK_Return,			focusstack,		{.i = -1 } },
-	{ MOD1, XK_space,			zoom,			{0} },
-	{ MOD2, XK_space,			zoom,			{0} },
+	{ MOD1, XK_space,			movestack,		{.i = +1 } },
+	{ MOD2, XK_space,			movestack,		{.i = -1 } },
 
 	/* left */
 	TAGKEYS(					XK_a,			0)
