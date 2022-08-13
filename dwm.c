@@ -1238,7 +1238,7 @@ manage(Window w, XWindowAttributes *wa)
 	updatesizehints(c);
 	if (c->isfixed) {
 		/* some apps like steam behaveincorrectly when the border size is odd */
-		c->bw = borderpx * 2;
+		wc.border_width = c->bw = borderpx * 2;
 		XConfigureWindow(dpy, w, CWBorderWidth, &wc);
 	}
 	updatewmhints(c);
@@ -1800,9 +1800,7 @@ setup(void)
 	lrpad = drw->fonts->h;
 	bh = drw->fonts->h + 2;
 	borderpx = drw->fonts->h * borderpt / fontpt + 0.5;
-	printf("borderpx=%d\n", borderpx);
 	gappx = ((drw->fonts->h * gappt) / fontpt + 1) / 2 * 2;
-	fflush(stdout);
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
