@@ -101,7 +101,8 @@ static const char *backlightinccmd[]  = { "xbacklight", "+10", NULL };
 static Key keys[] = {
 
 	/* thumbs */
-	{ MOD1, XK_Escape,			togglefloating,	{0} },
+	{ MOD1, XK_Escape,			togglefullscr,	{0} },
+	{ MOD2, XK_Escape,			togglefloating,	{0} },
 	{ MOD1, XK_Tab,				spawn,			{.v = dmenucmd } },
 	{ MOD2, XK_Tab,				spawn,			{.v = j4dmenucmd } },
 	{ MOD1, XK_Delete,			spawn,			{.v = termcmd } },
