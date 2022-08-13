@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const float borderpt         = 1.5;      /* border pt of windows */
+static const float borderpt         = 1;        /* border pt of windows */
 static const unsigned int gappt     = 0;        /* gap pt between tiled */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */

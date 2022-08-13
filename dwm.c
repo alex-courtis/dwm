@@ -1236,6 +1236,11 @@ manage(Window w, XWindowAttributes *wa)
 	configure(c); /* propagates border_width, if size doesn't change */
 	updatewindowtype(c);
 	updatesizehints(c);
+	if (c->isfixed) {
+		/* some apps like steam behaveincorrectly when the border size is odd */
+		c->bw = borderpx * 2;
+		XConfigureWindow(dpy, w, CWBorderWidth, &wc);
+	}
 	updatewmhints(c);
 	XSelectInput(dpy, w, EnterWindowMask|FocusChangeMask|PropertyChangeMask|StructureNotifyMask);
 	grabbuttons(c, 0);
@@ -1794,11 +1799,9 @@ setup(void)
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h;
 	bh = drw->fonts->h + 2;
-	/* some apps like steam behaveincorrectly when the border size is odd */
-	borderpx = ((drw->fonts->h * borderpt) / fontpt + 1) / 2 * 2;
+	borderpx = drw->fonts->h * borderpt / fontpt + 0.5;
 	printf("borderpx=%d\n", borderpx);
 	gappx = ((drw->fonts->h * gappt) / fontpt + 1) / 2 * 2;
-	printf("gappx=%d\n", gappx);
 	fflush(stdout);
 	updategeom();
 	/* init atoms */
