@@ -1237,11 +1237,6 @@ manage(Window w, XWindowAttributes *wa)
 	configure(c); /* propagates border_width, if size doesn't change */
 	updatewindowtype(c);
 	updatesizehints(c);
-	if (c->isfixed) {
-		/* some apps like steam behaveincorrectly when the border size is odd */
-		c->bw = borderpx * 2;
-		XConfigureWindow(dpy, w, CWBorderWidth, &wc);
-	}
 	updatewmhints(c);
 	XSelectInput(dpy, w, EnterWindowMask|FocusChangeMask|PropertyChangeMask|StructureNotifyMask);
 	grabbuttons(c, 0);
