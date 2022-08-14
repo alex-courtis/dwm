@@ -1795,7 +1795,8 @@ setup(void)
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h;
 	bh = drw->fonts->h + 2;
-	borderpx = drw->fonts->h * borderpt / fontpt + 0.5;
+	/* some apps like steam behave incorrectly when the border size is odd; setting border for specific apps is difficult, do not try it again */
+	borderpx = (int)((drw->fonts->h * borderpt / fontpt + 1) / 2) * 2;
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
