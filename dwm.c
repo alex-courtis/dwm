@@ -1239,7 +1239,7 @@ manage(Window w, XWindowAttributes *wa)
 	updatesizehints(c);
 	if (c->isfixed) {
 		/* some apps like steam behaveincorrectly when the border size is odd */
-		wc.border_width = c->bw = borderpx * 2;
+		c->bw = borderpx * 2;
 		XConfigureWindow(dpy, w, CWBorderWidth, &wc);
 	}
 	updatewmhints(c);
