@@ -23,7 +23,7 @@ static const char dmenufont[]       = "monospace:size=11";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { BASE04,    BASE01,    BASE01 },
-	[SchemeSel]  = { BASE05,    BASE02,    BASE0203 },
+	[SchemeSel]  = { BASE05,    BASE02,    BASE04 },
 };
 
 /* systray */
