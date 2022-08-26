@@ -84,8 +84,8 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static char j4dmenuargs[] = "--dmenu=dmenu -i -m 0 -fn monospace:size=11 -nb \\"BASE01" -nf \\"BASE04" -sb \\"BASE02" -sf \\"BASE05; /* manipulated in spawn() */
 static const int j4dmenuargsmonindex = 20;
 static const char *j4dmenucmd[] = { "j4-dmenu-desktop", j4dmenuargs, NULL };
-static const char *termcmd[]  = { SHELL, "-c", "term &", NULL };
-static const char *browsercmd[] = { SHELL, "-c", "browser &", NULL };
+static const char *termcmd[]  = { "term", NULL };
+static const char *browsercmd[] = { "browser", NULL };
 static const char *volraisemiccmd[]  = { "volraisemic", NULL };
 static const char *vollowermiccmd[]  = { "vollowermic", NULL };
 static const char *volmicmutecmd[]  = { "volmutemic", NULL };
