@@ -101,16 +101,16 @@ static const char *backlightinccmd[]  = { "xbacklight", "+10", NULL };
 static Key keys[] = {
 
 	/* thumbs */
-	{ MOD1, XK_Escape,			togglefullscr,	{0} },
-	{ MOD2, XK_Escape,			togglefloating,	{0} },
+	{ MOD1, XK_Escape,			movestack,		{.i = +1 } },
+	{ MOD2, XK_Escape,			movestack,		{.i = -1 } },
 	{ MOD1, XK_Tab,				spawn,			{.v = dmenucmd } },
 	{ MOD2, XK_Tab,				spawn,			{.v = j4dmenucmd } },
 	{ MOD1, XK_Delete,			spawn,			{.v = termcmd } },
 	{ MOD2, XK_Delete,			spawn,			{.v = browsercmd } },
 	{ MOD1, XK_Return,			focusstack,		{.i = +1 } },
 	{ MOD2, XK_Return,			focusstack,		{.i = -1 } },
-	{ MOD1, XK_space,			movestack,		{.i = +1 } },
-	{ MOD2, XK_space,			movestack,		{.i = -1 } },
+	{ MOD1, XK_space,			togglefullscr,	{0} },
+	{ MOD2, XK_space,			togglefloating,	{0} },
 
 	/* left */
 	TAGKEYS(					XK_a,			0)
