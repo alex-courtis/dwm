@@ -76,24 +76,9 @@ void tagview(const Arg *arg) {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-#define SHELL "/bin/zsh"
-
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", BASE01, "-nf", BASE04, "-sb", BASE02, "-sf", BASE05, NULL };
-static char j4dmenuargs[] = "--dmenu=dmenu -i -m 0 -fn monospace:size=11 -nb \\"BASE01" -nf \\"BASE04" -sb \\"BASE02" -sf \\"BASE05; /* manipulated in spawn() */
-static const int j4dmenuargsmonindex = 20;
-static const char *j4dmenucmd[] = { "j4-dmenu-desktop", j4dmenuargs, NULL };
-static const char *termcmd[]  = { "term", NULL };
-static const char *browsercmd[] = { "browser", NULL };
-static const char *volraisemiccmd[]  = { "volraisemic", NULL };
-static const char *vollowermiccmd[]  = { "vollowermic", NULL };
-static const char *volmicmutecmd[]  = { "volmutemic", NULL };
-static const char *volmutecmd[]  = { "volmute", NULL };
-static const char *vollowercmd[]  = { "vollower", NULL };
-static const char *volraisecmd[]  = { "volraise", NULL };
-static const char *backlightdeccmd[]  = { "xbacklight", "-10", NULL };
-static const char *backlightinccmd[]  = { "xbacklight", "+10", NULL };
 
 #include <X11/XF86keysym.h>
 #include "unfloat.c"
@@ -103,10 +88,12 @@ static Key keys[] = {
 	/* thumbs */
 	{ MOD1, XK_Escape,			movestack,		{.i = +1 } },
 	{ MOD2, XK_Escape,			movestack,		{.i = -1 } },
-	{ MOD1, XK_Tab,				spawn,			{.v = dmenucmd } },
-	{ MOD2, XK_Tab,				spawn,			{.v = j4dmenucmd } },
-	{ MOD1, XK_Delete,			spawn,			{.v = termcmd } },
-	{ MOD2, XK_Delete,			spawn,			{.v = browsercmd } },
+	// bemenu doens't obey x font scale
+	{ MOD1, XK_Tab,				spawn,			SHCMD("bemenu-run --fn 'monospace 22' > /dev/null 2>&1 &!") },
+	{ MOD2, XK_Tab,				spawn,			SHCMD("exec $(menjar -d ~/.local/share/applications -m 'bemenu -i -p# --fn \"monospace 22\"') > /dev/null 2>&1 &!") },
+	{ MOD1, XK_Delete,			spawn,			SHCMD("term > /dev/null 2>&1 &!") },
+	{ MOD2, XK_Delete,			spawn,			SHCMD("browser > /dev/null 2>&1 &!") },
+	{ MOD3, XK_Delete,			spawn,			SHCMD("browser-alt > /dev/null 2>&1 &!") },
 	{ MOD1, XK_Return,			focusstack,		{.i = +1 } },
 	{ MOD2, XK_Return,			focusstack,		{.i = -1 } },
 	{ MOD1, XK_space,			togglefullscr,	{0} },
@@ -127,19 +114,19 @@ static Key keys[] = {
 	{ MOD1, XK_q,				killclient,		{0} },
 	{ MOD3, XK_q,				quit,			{0} },
 
-	/* right */
-	{ MOD3, XK_f,				spawn,			{.v = volraisemiccmd } },
-	{ MOD3, XK_g,				spawn,			{.v = volraisecmd } },
+	// /* right *
+	{ MOD3, XK_f,				spawn,			SHCMD("volraisemic") },
+	{ MOD3, XK_g,				spawn,			SHCMD("volraise") },
 
-	{ MOD3, XK_d,				spawn,			{.v = vollowermiccmd } },
+	{ MOD3, XK_d,				spawn,			SHCMD("vollowermic") },
 	{ MOD1, XK_h,				setlayout,		{.v = &layouts[0]} }, /* left */
-	{ MOD3, XK_h,				spawn,			{.v = vollowercmd } },
+	{ MOD3, XK_h,				spawn,			SHCMD("vollower") },
 	{ MOD1, XK_t,				setlayout,		{.v = &layouts[2]} }, /* monocle */
 	{ MOD1, XK_n,				setlayout,		{.v = &layouts[1]} }, /* right */
 	{ MOD1, XK_s,				settile,		{0} },
 
-	{ MOD3, XK_b,				spawn,			{.v = volmicmutecmd } },
-	{ MOD3, XK_m,				spawn,			{.v = volmutecmd } },
+	{ MOD3, XK_b,				spawn,			SHCMD("volmutemic") },
+	{ MOD3, XK_m,				spawn,			SHCMD("volmute") },
 	{ MOD1, XK_w,				focusmon,		{.i = -1 } },
 	{ MOD2, XK_w,				tagmon,			{.i = -1 } },
 	{ MOD1, XK_v,				focusmon,		{.i = +1 } },
@@ -152,12 +139,12 @@ static Key keys[] = {
 	{ MOD2, XK_plus,			incnmaster,		{.i = +1 } },
 
 	/* keyboard function keys */
-	{ 0,	XF86XK_AudioMute,			spawn,	{.v = volmutecmd } },
-	{ 0,	XF86XK_AudioMicMute,		spawn,	{.v = volmicmutecmd } },
-	{ 0,	XF86XK_AudioLowerVolume,	spawn,	{.v = vollowercmd } },
-	{ 0,	XF86XK_AudioRaiseVolume,	spawn,	{.v = volraisecmd } },
-	{ 0,	XF86XK_MonBrightnessDown,	spawn,	{.v = backlightdeccmd } },
-	{ 0,	XF86XK_MonBrightnessUp,		spawn,	{.v = backlightinccmd } },
+	{ 0,	XF86XK_AudioMute,			spawn,	SHCMD("volmute") },
+	{ 0,	XF86XK_AudioMicMute,		spawn,	SHCMD("volmutemic") },
+	{ 0,	XF86XK_AudioLowerVolume,	spawn,	SHCMD("vollower") },
+	{ 0,	XF86XK_AudioRaiseVolume,	spawn,	SHCMD("volraise") },
+	{ 0,	XF86XK_MonBrightnessDown,	spawn,	SHCMD("xbacklight -10") },
+	{ 0,	XF86XK_MonBrightnessUp,		spawn,	SHCMD("xbacklight +10") },
 };
 
 /* button definitions */
