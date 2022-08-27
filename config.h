@@ -138,6 +138,9 @@ static Key keys[] = {
 	{ MOD1, XK_plus,			setmfact,		{.f = +0.05 } },
 	{ MOD2, XK_plus,			incnmaster,		{.i = +1 } },
 
+	{ MOD3, XK_minus,			spawn,			SHCMD("sudo systemctl suspend") },
+	{ MOD3, XK_backslash,		spawn,			SHCMD("sudo systemctl hibernate") },
+
 	/* keyboard function keys */
 	{ 0,	XF86XK_AudioMute,			spawn,	SHCMD("volmute") },
 	{ 0,	XF86XK_AudioMicMute,		spawn,	SHCMD("volmutemic") },
