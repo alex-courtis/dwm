@@ -96,7 +96,7 @@ static Key keys[] = {
 	{ MOD3, XK_Delete,			spawn,			SHCMD("browser-alt > /dev/null 2>&1 &!") },
 	{ MOD1, XK_Return,			focusstack,		{.i = +1 } },
 	{ MOD2, XK_Return,			focusstack,		{.i = -1 } },
-	{ MOD1, XK_space,			setlayout,		{0} },
+	{ MOD1, XK_space,			setlayoutlm,	{0} },
 	{ MOD2, XK_space,			togglefullscr,	{0} },
 	{ MOD3, XK_space,			togglefloating,	{0} },
 
