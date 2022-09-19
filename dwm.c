@@ -159,6 +159,7 @@ typedef struct {
 	unsigned int tags;
 	int isfloating;
 	int monitor;
+	int borderpx;
 } Rule;
 
 typedef struct Systray   Systray;
@@ -224,6 +225,7 @@ static void resizeclient(Client *c, int x, int y, int w, int h, int bw);
 static void resizemouse(const Arg *arg);
 static void resizerequest(XEvent *e);
 static void restack(Monitor *m);
+static int rulebwor(Client *c, int bw);
 static void run(void);
 static void scan(void);
 static int sendevent(Window w, Atom proto, int m, long d0, long d1, long d2, long d3, long d4);
@@ -356,6 +358,8 @@ applyrules(Client *c)
 			for (m = mons; m && m->num != r->monitor; m = m->next);
 			if (m)
 				c->mon = m;
+			if (r->borderpx >= 0)
+				c->bw = r->borderpx;
 		}
 	}
 	if (ch.res_class)
@@ -363,6 +367,31 @@ applyrules(Client *c)
 	if (ch.res_name)
 		XFree(ch.res_name);
 	c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
+}
+
+int
+rulebwor(Client *c, int bw)
+{
+	const char *class, *instance;
+	unsigned int i;
+	const Rule *r;
+	XClassHint ch = { NULL, NULL };
+
+	/* rule matching */
+	XGetClassHint(dpy, c->win, &ch);
+	class    = ch.res_class ? ch.res_class : broken;
+	instance = ch.res_name  ? ch.res_name  : broken;
+
+	for (i = 0; i < LENGTH(rules); i++) {
+		r = &rules[i];
+		if ((!r->title || strstr(c->name, r->title))
+		&& (!r->class || strstr(class, r->class))
+		&& (!r->instance || strstr(instance, r->instance)))
+			if (r->borderpx >= 0)
+				return r->borderpx;
+	}
+
+	return bw;
 }
 
 int
@@ -456,8 +485,10 @@ arrangemon(Monitor *m)
 	else
 		/* <>< case; rather than providing an arrange function and upsetting other logic that tests for its presence, simply add borders here */
 		for (c = selmon->clients; c; c = c->next)
-			if (ISVISIBLE(c) && c->bw == 0)
-				resize(c, c->x, c->y, c->w - 2*borderpx, c->h - 2*borderpx, borderpx, 0);
+			if (ISVISIBLE(c) && c->bw == 0) {
+				int bw = rulebwor(c, borderpx);
+				resize(c, c->x, c->y, c->w - 2*bw, c->h - 2*bw, bw, 0);
+			}
 }
 
 void
@@ -715,7 +746,7 @@ configurerequest(XEvent *e)
 
 	if ((c = wintoclient(ev->window))) {
 		if (ev->value_mask & CWBorderWidth)
-			c->bw = ev->border_width;
+			c->bw = rulebwor(c, ev->border_width);
 		else if (c->isfloating || !selmon->lt[selmon->sellt]->arrange) {
 			m = c->mon;
 			if (ev->value_mask & CWX) {
@@ -1237,7 +1268,7 @@ manage(Window w, XWindowAttributes *wa)
 	/* only fix client y-offset, if the client center might cover the bar */
 	c->y = MAX(c->y, ((c->mon->by == c->mon->my) && (c->x + (c->w / 2) >= c->mon->wx)
 		&& (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? bh : c->mon->my);
-	c->bw = borderpx;
+	c->bw = rulebwor(c, borderpx);
 
 	wc.border_width = c->bw;
 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
@@ -1503,7 +1534,12 @@ resizeclient(Client *c, int x, int y, int w, int h, int bw)
 	c->oldy = c->y; c->y = wc.y = y;
 	c->oldw = c->w; c->w = wc.width = w;
 	c->oldh = c->h; c->h = wc.height = h;
-	c->oldbw = c->bw; c->bw = wc.border_width = bw;
+	c->oldbw = c->bw;
+	if (bw == 0) {
+		c->bw = wc.border_width = 0;
+	} else {
+		c->bw = wc.border_width = rulebwor(c, bw);
+	}
 	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
 	configure(c);
 	XSync(dpy, False);
@@ -1814,8 +1850,7 @@ setup(void)
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h;
 	bh = drw->fonts->h + 2;
-	/* some apps like steam behave incorrectly when the border size is odd; setting border for specific apps is difficult, do not try it again */
-	borderpx = (int)((drw->fonts->h * borderpt / fontpt + 1) / 2) * 2;
+	borderpx = (int)(drw->fonts->h * borderpt / fontpt + 0.5);
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
@@ -1965,6 +2000,7 @@ void
 tile(Monitor *m, int rmaster)
 {
 	unsigned int i, n, h, mw, tw, mx, my, tx, ty, bw;
+	int bwrule;
 	Client *c;
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
@@ -1990,16 +2026,22 @@ tile(Monitor *m, int rmaster)
 			tx += mw;
 	}
 
-	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+		if (bw == 0) {
+			bwrule = 0;
+		} else {
+			bwrule = rulebwor(c, bw);
+		}
 		if (i < m->nmaster) {
 			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-			resize(c, m->wx, m->wy + my, mw - 2*bw, h - 2*bw, bw, 0);
+			resize(c, m->wx, m->wy + my, mw - 2*bwrule, h - 2*bwrule, bwrule, 0);
 			my += HEIGHT(c);
 		} else {
 			h = (m->wh - ty) / (n - i);
-			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - 2*bw, h - 2*bw, bw, 0);
+			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - 2*bwrule, h - 2*bwrule, bwrule, 0);
 			ty += HEIGHT(c);
 		}
+	}
 }
 
 void
@@ -2030,11 +2072,13 @@ togglefloating(const Arg *arg)
 	if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
 		return;
 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
-	if (selmon->sel->isfloating)
+	if (selmon->sel->isfloating) {
+		int bw = rulebwor(selmon->sel, borderpx);
 		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
-				selmon->sel->w - 2 * (borderpx - selmon->sel->bw),
-				selmon->sel->h - 2 * (borderpx - selmon->sel->bw),
-				borderpx, 0);
+				selmon->sel->w - 2 * (bw - selmon->sel->bw),
+				selmon->sel->h - 2 * (bw - selmon->sel->bw),
+				bw, 0);
+	}
 	arrange(selmon);
 }
 
