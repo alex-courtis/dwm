@@ -54,9 +54,8 @@ static const Layout layouts[] = {
 	{ "[]=",      tilelmaster },	/* first entry is default */
 	{ "=[]",      tilermaster },
 	{ "[M]",      monocle },
+	{ "><>",      NULL },    /* no layout function means floating behavior */
 };
-static const unsigned int itilelm = 0;  /* used by settile */
-static const unsigned int itilerm = 1;
 
 void tagview(const Arg *arg) {
 	tag(arg);
@@ -122,7 +121,7 @@ static Key keys[] = {
 	{ MOD3, XK_h,				spawn,			SHCMD("vollower") },
 	{ MOD1, XK_t,				setlayout,		{.v = &layouts[2]} }, /* monocle */
 	{ MOD1, XK_n,				setlayout,		{.v = &layouts[1]} }, /* right */
-	{ MOD1, XK_s,				settile,		{0} },
+	{ MOD1, XK_s,				setlayout,		{.v = &layouts[3]} }, /* float */
 
 	{ MOD3, XK_b,				spawn,			SHCMD("volmutemic") },
 	{ MOD3, XK_m,				spawn,			SHCMD("volmute") },

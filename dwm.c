@@ -239,7 +239,6 @@ static void setfullscreen(Client *c, int fullscreen);
 static void setlayout(const Arg *arg);
 static void setlayoutlm(const Arg *arg);
 static void setmfact(const Arg *arg);
-static void settile(const Arg *arg);
 static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
@@ -1873,17 +1872,6 @@ setmfact(const Arg *arg)
 		return;
 	selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag] = f;
 	arrange(selmon);
-}
-
-void
-settile(const Arg *arg)
-{
-	Arg slarg;
-	if (selmon->lt[selmon->sellt]->arrange != &tilelmaster)
-		slarg.v = &layouts[itilelm];
-	else
-		slarg.v = &layouts[itilerm];
-	setlayout(&slarg);
 }
 
 void
