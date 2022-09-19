@@ -84,6 +84,8 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static Key keys[] = {
 
 	/* thumbs */
+	{ MOD1, XK_Escape,			pushdown,		{0} },
+	{ MOD2, XK_Escape,			pushup,			{0} },
 	// bemenu doens't obey x font scale
 	{ MOD1, XK_Tab,				spawn,			SHCMD("bemenu-run --fn 'monospace 22' > /dev/null 2>&1 &!") },
 	{ MOD2, XK_Tab,				spawn,			SHCMD("exec $(menjar -d ~/.local/share/applications -m 'bemenu -i -p# --fn \"monospace 22\"') > /dev/null 2>&1 &!") },
