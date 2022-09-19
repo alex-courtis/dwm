@@ -81,12 +81,9 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 
 #include <X11/XF86keysym.h>
 #include "unfloat.c"
-#include "movestack.c"
 static Key keys[] = {
 
 	/* thumbs */
-	{ MOD1, XK_Escape,			movestack,		{.i = +1 } },
-	{ MOD2, XK_Escape,			movestack,		{.i = -1 } },
 	// bemenu doens't obey x font scale
 	{ MOD1, XK_Tab,				spawn,			SHCMD("bemenu-run --fn 'monospace 22' > /dev/null 2>&1 &!") },
 	{ MOD2, XK_Tab,				spawn,			SHCMD("exec $(menjar -d ~/.local/share/applications -m 'bemenu -i -p# --fn \"monospace 22\"') > /dev/null 2>&1 &!") },
