@@ -184,6 +184,7 @@ static void clientmessage(XEvent *e);
 static void configure(Client *c);
 static void configurenotify(XEvent *e);
 static void configurerequest(XEvent *e);
+static void copytitle(const Arg *arg);
 static Monitor *createmon(void);
 static void destroynotify(XEvent *e);
 static void detach(Client *c);
@@ -788,6 +789,18 @@ configurerequest(XEvent *e)
 		XConfigureWindow(dpy, ev->window, ev->value_mask, &wc);
 	}
 	XSync(dpy, False);
+}
+
+void
+copytitle(const Arg *arg)
+{
+	static char cmd[1024];
+
+	if (selmon->sel) {
+		snprintf(cmd, 1024, "printf '%s' | xsel -b", selmon->sel->name);
+		const Arg arg = { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL }};
+		spawn(&arg);
+	}
 }
 
 Monitor *
