@@ -797,7 +797,7 @@ copytitle(const Arg *arg)
 	static char cmd[1024];
 
 	if (selmon->sel) {
-		snprintf(cmd, 1024, "printf '%s' | xsel -b", selmon->sel->name);
+		snprintf(cmd, 1024, "printf '%s' | xsel -p", selmon->sel->name);
 		const Arg arg = { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL }};
 		spawn(&arg);
 	}
