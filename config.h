@@ -120,6 +120,7 @@ static Key keys[] = {
 	{ MOD1, XK_h,				setlayout,		{.v = &layouts[0]} }, /* left */
 	{ MOD3, XK_h,				spawn,			SHCMD("vollower") },
 	{ MOD1, XK_t,				setlayout,		{.v = &layouts[2]} }, /* monocle */
+	{ MOD3, XK_t,				spawn,			SHCMD("bell") },
 	{ MOD1, XK_n,				setlayout,		{.v = &layouts[1]} }, /* right */
 	{ MOD1, XK_s,				setlayout,		{.v = &layouts[3]} }, /* float */
 
