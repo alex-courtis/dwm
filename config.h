@@ -64,8 +64,8 @@ void tagview(const Arg *arg) {
 
 /* key definitions */
 #define MOD1 Mod4Mask
-#define MOD2 MOD1|ControlMask
-#define MOD3 MOD2|ShiftMask
+#define MOD2 MOD1|ShiftMask
+#define MOD3 MOD2|ControlMask
 #define TAGKEYS(KEY,TAG) \
 { MOD1,				KEY,	view,		{.ui = 1 << TAG} },\
 { MOD2,				KEY,	tagview,	{.ui = 1 << TAG} },\
@@ -90,7 +90,6 @@ static Key keys[] = {
 	{ MOD2, XK_Tab,				spawn,			SHCMD("exec $(menjar -d ~/.local/share/applications -m 'bemenu -i -p# --fn \"monospace 22\"') > /dev/null 2>&1 &!") },
 	{ MOD1, XK_Delete,			spawn,			SHCMD("term > /dev/null 2>&1 &!") },
 	{ MOD2, XK_Delete,			spawn,			SHCMD("browser > /dev/null 2>&1 &!") },
-	{ MOD3, XK_Delete,			spawn,			SHCMD("browser-alt > /dev/null 2>&1 &!") },
 	{ MOD1, XK_Return,			focusstack,		{.i = +1 } },
 	{ MOD2, XK_Return,			focusstack,		{.i = -1 } },
 	{ MOD1, XK_space,			setlayoutlm,	{0} },
@@ -120,7 +119,6 @@ static Key keys[] = {
 	{ MOD1, XK_h,				setlayout,		{.v = &layouts[0]} }, /* left */
 	{ MOD3, XK_h,				spawn,			SHCMD("vollower") },
 	{ MOD1, XK_t,				setlayout,		{.v = &layouts[2]} }, /* monocle */
-	{ MOD3, XK_t,				spawn,			SHCMD("bell") },
 	{ MOD1, XK_n,				setlayout,		{.v = &layouts[1]} }, /* right */
 	{ MOD1, XK_s,				setlayout,		{.v = &layouts[3]} }, /* float */
 
@@ -158,7 +156,7 @@ static Button buttons[] = {
 	{ ClkWinTitle,			0,				Button1,		copytitle,		{0} },
 	{ ClkWinTitle,			0,				Button2,		zoom,			{0} },
 	{ ClkClientWin,			MOD1,			Button1,		movemouse,		{0} },
-	{ ClkClientWin,			MOD1,			Button2,		togglefloating	,{0} },
+	{ ClkClientWin,			MOD1,			Button2,		togglefloating,	{0} },
 	{ ClkClientWin,			MOD1,			Button3,		resizemouse,	{0} },
 	{ ClkTagBar,			0,				Button1,		view,			{0} },
 	{ ClkTagBar,			0,				Button3,		toggleview,		{0} },
