@@ -111,32 +111,38 @@ static Key keys[] = {
 	{ MOD1, XK_q,				killclient,		{0} },
 	{ MOD3, XK_q,				quit,			{0} },
 
-	// /* right *
+	/* right */
+
 	{ MOD3, XK_f,				spawn,			SHCMD("volraisemic") },
+	{ MOD1, XK_g,				setlayout,		{.v = &layouts[0]} }, /* left */
+	{ MOD2, XK_g,				setmfact,		{.f = -0.05 } },
 	{ MOD3, XK_g,				spawn,			SHCMD("volraise") },
+	{ MOD1, XK_c,				setlayout,		{.v = &layouts[3]} }, /* float */
+	{ MOD1, XK_r,				setlayout,		{.v = &layouts[1]} }, /* right */
+	{ MOD2, XK_r,				setmfact,		{.f = +0.05 } },
+	{ MOD3, XK_l,				spawn,			SHCMD("slock") },
 
 	{ MOD3, XK_d,				spawn,			SHCMD("vollowermic") },
-	{ MOD1, XK_h,				setlayout,		{.v = &layouts[0]} }, /* left */
+	{ MOD1, XK_h,				focusstack,		{.i = -1 } },
+	{ MOD2, XK_h,				incnmaster,		{.i = +1 } },
 	{ MOD3, XK_h,				spawn,			SHCMD("vollower") },
 	{ MOD1, XK_t,				setlayout,		{.v = &layouts[2]} }, /* monocle */
-	{ MOD1, XK_n,				setlayout,		{.v = &layouts[1]} }, /* right */
-	{ MOD1, XK_s,				setlayout,		{.v = &layouts[3]} }, /* float */
+	{ MOD1, XK_n,				focusstack,		{.i = +1 } },
+	{ MOD2, XK_n,				incnmaster,		{.i = -1 } },
 
 	{ MOD3, XK_b,				spawn,			SHCMD("volmutemic") },
 	{ MOD3, XK_m,				spawn,			SHCMD("volmute") },
-	{ MOD1, XK_w,				focusmon,		{.i = -1 } },
-	{ MOD2, XK_w,				tagmon,			{.i = -1 } },
-	{ MOD1, XK_v,				focusmon,		{.i = +1 } },
-	{ MOD2, XK_v,				tagmon,			{.i = +1 } },
 
-	{ MOD1, XK_equal,			setmfact,		{.f = 0.5 } },
-	{ MOD1, XK_minus,			setmfact,		{.f = -0.05 } },
-	{ MOD2, XK_minus,			incnmaster,		{.i = -1 } },
-	{ MOD1, XK_plus,			setmfact,		{.f = +0.05 } },
-	{ MOD2, XK_plus,			incnmaster,		{.i = +1 } },
+	{ MOD1, XK_Left,			focusmon,		{.i = -1 } },
+	{ MOD2, XK_Left,			tagmon,			{.i = -1 } },
+	{ MOD1, XK_Right,			focusmon,		{.i = +1 } },
+	{ MOD2, XK_Right,			tagmon,			{.i = +1 } },
 
 	{ MOD3, XK_minus,			spawn,			SHCMD("sudo systemctl suspend") },
-	{ MOD3, XK_backslash,		spawn,			SHCMD("sudo systemctl hibernate") },
+
+	{ MOD1, XK_Up,				spawn,			SHCMD("hmon") },
+	{ MOD2, XK_Up,				spawn,			SHCMD("htv") },
+	{ MOD1, XK_Down,			spawn,			SHCMD("tmon") },
 
 	/* keyboard function keys */
 	{ 0,	XF86XK_AudioMute,			spawn,	SHCMD("volmute") },
