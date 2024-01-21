@@ -5,9 +5,9 @@ static const float borderpt         = 1;        /* border pt of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=11" };
-static const int fontpt             = 11;       /* used for calculating borderpx */
-static const char dmenufont[]       = "monospace:size=11";
+static const char *fonts[]          = { "monospace:size=12" };
+static const int fontpt             = 12;       /* used for calculating borderpx */
+static const char dmenufont[]       = "monospace:size=12";
 
 /* base16-bright */
 #define BASE00 "#000000" // Default Background
@@ -88,8 +88,9 @@ static Key keys[] = {
 	// bemenu doens't obey x font scale
 	{ MOD1, XK_Tab,				spawn,			SHCMD("bemenu-run --fn 'monospace 22' > /dev/null 2>&1 &!") },
 	{ MOD2, XK_Tab,				spawn,			SHCMD("exec $(menjar -d ~/.local/share/applications -m 'bemenu -i -p# --fn \"monospace 22\"') > /dev/null 2>&1 &!") },
-	{ MOD1, XK_Delete,			spawn,			SHCMD("term > /dev/null 2>&1 &!") },
-	{ MOD2, XK_Delete,			spawn,			SHCMD("browser > /dev/null 2>&1 &!") },
+	{ MOD1, XK_Delete,			spawn,			SHCMD("term") },
+	{ MOD2, XK_Delete,			spawn,			SHCMD("b") },
+	{ MOD3, XK_Delete,			spawn,			SHCMD("bp") },
 	{ MOD1, XK_Return,			focusstack,		{.i = +1 } },
 	{ MOD2, XK_Return,			focusstack,		{.i = -1 } },
 	{ MOD1, XK_space,			setlayoutlm,	{0} },
@@ -129,20 +130,22 @@ static Key keys[] = {
 	{ MOD1, XK_t,				setlayout,		{.v = &layouts[2]} }, /* monocle */
 	{ MOD1, XK_n,				focusstack,		{.i = +1 } },
 	{ MOD2, XK_n,				incnmaster,		{.i = -1 } },
+	{ MOD3, XK_s,				spawn,			SHCMD("sss") },
 
+	{ MOD1, XK_b,				spawn,			SHCMD("b") },
 	{ MOD3, XK_b,				spawn,			SHCMD("volmutemic") },
+	{ MOD1, XK_m,				spawn,			SHCMD("bp") },
 	{ MOD3, XK_m,				spawn,			SHCMD("volmute") },
+	{ MOD1, XK_w,				spawn,			SHCMD("term") },
+	{ MOD3, XK_v,				spawn,			SHCMD("display-init") },
+	{ MOD3, XK_z,				spawn,			SHCMD("xlayoutdisplay --mirror") },
 
 	{ MOD1, XK_Left,			focusmon,		{.i = -1 } },
 	{ MOD2, XK_Left,			tagmon,			{.i = -1 } },
 	{ MOD1, XK_Right,			focusmon,		{.i = +1 } },
 	{ MOD2, XK_Right,			tagmon,			{.i = +1 } },
 
-	{ MOD3, XK_minus,			spawn,			SHCMD("sudo systemctl suspend") },
-
-	{ MOD1, XK_Up,				spawn,			SHCMD("hmon") },
-	{ MOD2, XK_Up,				spawn,			SHCMD("htv") },
-	{ MOD1, XK_Down,			spawn,			SHCMD("tmon") },
+	{ MOD3, XK_backslash,		spawn,			SHCMD("sudo systemctl suspend") },
 
 	/* keyboard function keys */
 	{ 0,	XF86XK_AudioMute,			spawn,	SHCMD("volmute") },
