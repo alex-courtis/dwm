@@ -120,6 +120,7 @@ static Key keys[] = {
 	{ MOD3, XK_g,				spawn,			SHCMD("volraise") },
 
 	{ MOD1, XK_c,				setmfact,		{.f = +0.025 } },
+	{ MOD2, XK_c,				setmfact,		{.f = 1.5 } },
 
 	{ MOD1, XK_r,				incnmaster,		{.i = -1 } },
 
@@ -135,6 +136,7 @@ static Key keys[] = {
 	{ MOD3, XK_h,				spawn,			SHCMD("vollower") },
 
 	{ MOD1, XK_t,				setmfact,		{.f = -0.025 } },
+	{ MOD2, XK_t,				setmfact,		{.f = 1.5 } },
 
 	{ MOD1, XK_n,				focusstack,		{.i = +1 } },
 	{ MOD2, XK_n,				pushdown,		{ 0 } },
