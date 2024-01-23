@@ -83,19 +83,10 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static Key keys[] = {
 
 	/* thumbs */
-	{ MOD1, XK_Escape,			pushdown,		{0} },
-	{ MOD2, XK_Escape,			pushup,			{0} },
-	// bemenu doens't obey x font scale
-	{ MOD1, XK_Tab,				spawn,			SHCMD("bemenu-run --fn 'monospace 22' > /dev/null 2>&1 &!") },
-	{ MOD2, XK_Tab,				spawn,			SHCMD("exec $(menjar -d ~/.local/share/applications -m 'bemenu -i -p# --fn \"monospace 22\"') > /dev/null 2>&1 &!") },
-	{ MOD1, XK_Delete,			spawn,			SHCMD("term") },
-	{ MOD2, XK_Delete,			spawn,			SHCMD("b") },
-	{ MOD3, XK_Delete,			spawn,			SHCMD("bp") },
-	{ MOD1, XK_Return,			focusstack,		{.i = +1 } },
-	{ MOD2, XK_Return,			focusstack,		{.i = -1 } },
+	{ MOD1, XK_Tab,				togglefullscr,	{0} },
 	{ MOD1, XK_space,			setlayoutlm,	{0} },
-	{ MOD2, XK_space,			togglefullscr,	{0} },
-	{ MOD3, XK_space,			togglefloating,	{0} },
+	{ MOD1, XK_Delete,			togglefloating,	{0} },
+	{ MOD1, XK_Return,			view,			{ .ui = 0 } },
 
 	/* left */
 	TAGKEYS(					XK_a,			0)
@@ -109,43 +100,62 @@ static Key keys[] = {
 	TAGKEYS(					XK_p,			8)
 	TAGKEYS(					XK_y,			9)
 
-	{ MOD1, XK_q,				killclient,		{0} },
-	{ MOD3, XK_q,				quit,			{0} },
+	// bemenu doens't obey x font scale
+	{ MOD1, XK_apostrophe,		spawn,			SHCMD("bemenu-run --fn 'monospace 22' > /dev/null 2>&1 &!") },
+	{ MOD2, XK_apostrophe,		spawn,			SHCMD("exec $(menjar -d ~/.local/share/applications -m 'bemenu -i -p# --fn \"monospace 22\"') > /dev/null 2>&1 &!") },
+
+	{ MOD1, XK_q,				view,			{ .ui = 1 << 9 } }, // annoying, to get out of the cmd-Q habit for macOS
+
+	{ MOD1, XK_j,				spawn,			SHCMD("term") },
+
+	{ MOD1, XK_k,				spawn,			SHCMD("b") },
+	{ MOD2, XK_k,				spawn,			SHCMD("bp") },
 
 	/* right */
 
+	{ MOD1, XK_f,				setlayout,		{.v = &layouts[3]} }, /* float */
 	{ MOD3, XK_f,				spawn,			SHCMD("volraisemic") },
-	{ MOD1, XK_g,				setlayout,		{.v = &layouts[0]} }, /* left */
-	{ MOD2, XK_g,				setmfact,		{.f = -0.05 } },
+
+	{ MOD1, XK_g,				incnmaster,		{.i = +1 } },
 	{ MOD3, XK_g,				spawn,			SHCMD("volraise") },
-	{ MOD1, XK_c,				setlayout,		{.v = &layouts[3]} }, /* float */
-	{ MOD1, XK_r,				setlayout,		{.v = &layouts[1]} }, /* right */
-	{ MOD2, XK_r,				setmfact,		{.f = +0.05 } },
+
+	{ MOD1, XK_c,				setmfact,		{.f = +0.025 } },
+
+	{ MOD1, XK_r,				incnmaster,		{.i = -1 } },
+
 	{ MOD3, XK_l,				spawn,			SHCMD("slock") },
 
+	{ MOD3, XK_slash,			spawn,			SHCMD("pa-mute-all") },
+
+	{ MOD1, XK_d,				setlayout,		{.v = &layouts[0]} }, /* left */
 	{ MOD3, XK_d,				spawn,			SHCMD("vollowermic") },
+
 	{ MOD1, XK_h,				focusstack,		{.i = -1 } },
-	{ MOD2, XK_h,				incnmaster,		{.i = +1 } },
+	{ MOD2, XK_h,				pushup,			{ 0 } },
 	{ MOD3, XK_h,				spawn,			SHCMD("vollower") },
-	{ MOD1, XK_t,				setlayout,		{.v = &layouts[2]} }, /* monocle */
+
+	{ MOD1, XK_t,				setmfact,		{.f = -0.025 } },
+
 	{ MOD1, XK_n,				focusstack,		{.i = +1 } },
-	{ MOD2, XK_n,				incnmaster,		{.i = -1 } },
+	{ MOD2, XK_n,				pushdown,		{ 0 } },
+
 	{ MOD3, XK_s,				spawn,			SHCMD("sss") },
 
-	{ MOD1, XK_b,				spawn,			SHCMD("b") },
-	{ MOD3, XK_b,				spawn,			SHCMD("volmutemic") },
-	{ MOD1, XK_m,				spawn,			SHCMD("bp") },
-	{ MOD3, XK_m,				spawn,			SHCMD("volmute") },
-	{ MOD1, XK_w,				spawn,			SHCMD("term") },
+	{ MOD1, XK_b,				setlayout,		{.v = &layouts[2]} }, /* monocle */
+
+	{ MOD1, XK_w,				killclient,		{0} },
+	{ MOD3, XK_w,				quit,			{0} },
+
 	{ MOD3, XK_v,				spawn,			SHCMD("display-init") },
+
 	{ MOD3, XK_z,				spawn,			SHCMD("xlayoutdisplay --mirror") },
+
+	{ MOD3, XK_backslash,		spawn,			SHCMD("sudo systemctl suspend") },
 
 	{ MOD1, XK_Left,			focusmon,		{.i = -1 } },
 	{ MOD2, XK_Left,			tagmon,			{.i = -1 } },
 	{ MOD1, XK_Right,			focusmon,		{.i = +1 } },
 	{ MOD2, XK_Right,			tagmon,			{.i = +1 } },
-
-	{ MOD3, XK_backslash,		spawn,			SHCMD("sudo systemctl suspend") },
 
 	/* keyboard function keys */
 	{ 0,	XF86XK_AudioMute,			spawn,	SHCMD("volmute") },
